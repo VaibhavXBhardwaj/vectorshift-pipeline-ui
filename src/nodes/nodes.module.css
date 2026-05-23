@@ -1,0 +1,247 @@
+/* nodes/nodes.module.css */
+/* ─────────────────────────────────────────────────────────────────────────────
+   Design tokens & shared node chrome.
+   Individual node files only need to style their own fields — never layout.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --accent-default : #94a3b8;
+  --accent-input   : #6366f1;   /* indigo  */
+  --accent-output  : #10b981;   /* emerald */
+  --accent-llm     : #f59e0b;   /* amber   */
+  --accent-text    : #3b82f6;   /* blue    */
+  --accent-note    : #a78bfa;   /* violet  */
+  --accent-condition: #f43f5e;  /* rose    */
+  --accent-transform: #14b8a6;  /* teal    */
+  --accent-api     : #f97316;   /* orange  */
+  --accent-merge   : #8b5cf6;   /* purple  */
+  --accent-delay   : #64748b;   /* slate   */
+
+  --node-bg        : #ffffff;
+  --node-border    : #e2e8f0;
+  --node-shadow    : 0 1px 3px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.05);
+  --node-radius    : 10px;
+  --header-bg      : #f8fafc;
+  --text-primary   : #0f172a;
+  --text-secondary : #64748b;
+  --text-xs        : 10px;
+  --text-sm        : 12px;
+  --text-base      : 13px;
+  --input-bg       : #f1f5f9;
+  --input-border   : #cbd5e1;
+  --input-radius   : 6px;
+  --input-focus    : #6366f1;
+  --handle-size    : 10px;
+  --handle-border  : 2px;
+}
+
+/* ── Node shell ─────────────────────────────────────────────────────────────── */
+
+.node {
+  position: relative;
+  background: var(--node-bg);
+  border: 1px solid var(--node-border);
+  border-left: 3px solid var(--node-accent, var(--accent-default));
+  border-radius: var(--node-radius);
+  box-shadow: var(--node-shadow);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  transition: box-shadow 120ms ease;
+  cursor: default;
+  user-select: none;
+}
+
+.node:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,.1), 0 8px 24px rgba(0,0,0,.08);
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px 7px;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--node-border);
+  border-radius: calc(var(--node-radius) - 1px) calc(var(--node-radius) - 1px) 0 0;
+}
+
+.icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* ── Body ───────────────────────────────────────────────────────────────────── */
+
+.body {
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Form primitives ────────────────────────────────────────────────────────── */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--input-radius);
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 100ms ease, box-shadow 100ms ease;
+  outline: none;
+}
+
+.input,
+.select {
+  height: 28px;
+  padding: 0 8px;
+}
+
+.textarea {
+  padding: 6px 8px;
+  resize: vertical;
+  min-height: 56px;
+  line-height: 1.5;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--input-focus) 15%, transparent);
+}
+
+.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 26px;
+}
+
+/* ── Info / static text ─────────────────────────────────────────────────────── */
+
+.hint {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .03em;
+  background: color-mix(in srgb, var(--node-accent, var(--accent-default)) 12%, transparent);
+  color: var(--node-accent, var(--accent-default));
+  width: fit-content;
+}
+
+/* ── Handles ────────────────────────────────────────────────────────────────── */
+
+/*
+  ReactFlow positions handles with absolute CSS already.
+  We wrap each Handle in .handleWrap to co-locate the optional label,
+  then use position: absolute on the wrap to mirror the handle's position.
+  The actual ReactFlow handle sits at offset 0 inside the wrap.
+*/
+
+.handleWrap {
+  position: absolute;
+  display: flex;
+  align-items: center;
+}
+
+.handle {
+  width: var(--handle-size) !important;
+  height: var(--handle-size) !important;
+  background: var(--node-bg) !important;
+  border: var(--handle-border) solid var(--node-accent, var(--accent-default)) !important;
+  border-radius: 50% !important;
+  transition: transform 120ms ease, background 120ms ease;
+}
+
+.handle:hover {
+  background: var(--node-accent, var(--accent-default)) !important;
+  transform: scale(1.25);
+}
+
+.handleLabelLeft {
+  position: absolute;
+  left: 14px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.handleLabelRight {
+  position: absolute;
+  right: 14px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ── Divider ────────────────────────────────────────────────────────────────── */
+
+.divider {
+  height: 1px;
+  background: var(--node-border);
+  margin: 2px 0;
+}
+
+/* ── Toggle row (checkbox + label inline) ───────────────────────────────────── */
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.toggleRow input[type='checkbox'] {
+  accent-color: var(--node-accent, var(--accent-default));
+  width: 13px;
+  height: 13px;
+  cursor: pointer;
+}

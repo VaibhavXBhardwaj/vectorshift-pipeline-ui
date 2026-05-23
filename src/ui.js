@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from 'react';
-import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
+import ReactFlow, { Controls, Background, MiniMap, BackgroundVariant } from 'reactflow';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
 
@@ -15,11 +15,9 @@ import { MergeNode     } from './nodes/mergeNode';
 
 import 'reactflow/dist/style.css';
 
+const proOptions = { hideAttribution: true };
 const GRID = 20;
 
-const proOptions = { hideAttribution: true };
-
-// Registry — add new node types here only; no other file needs to change.
 const nodeTypes = {
   customInput  : InputNode,
   customOutput : OutputNode,
@@ -30,6 +28,25 @@ const nodeTypes = {
   transform    : TransformNode,
   api          : ApiNode,
   merge        : MergeNode,
+};
+
+/* Accent map — drives minimap colours */
+const ACCENT = {
+  customInput  : '#6366f1',
+  customOutput : '#10b981',
+  llm          : '#f59e0b',
+  text         : '#3b82f6',
+  note         : '#a78bfa',
+  condition    : '#f43f5e',
+  transform    : '#14b8a6',
+  api          : '#f97316',
+  merge        : '#8b5cf6',
+};
+
+const defaultEdgeOptions = {
+  type: 'smoothstep',
+  style: { strokeWidth: 1.5 },
+  animated: false,
 };
 
 const selector = (state) => ({
@@ -52,19 +69,15 @@ export function PipelineUI() {
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
-
       const raw = event.dataTransfer.getData('application/reactflow');
       if (!raw) return;
-
       const { nodeType: type } = JSON.parse(raw);
       if (!type) return;
-
       const bounds = wrapperRef.current.getBoundingClientRect();
       const position = rfInstance.project({
         x: event.clientX - bounds.left,
         y: event.clientY - bounds.top,
       });
-
       const nodeID = getNodeID(type);
       addNode({ id: nodeID, type, position, data: { id: nodeID, nodeType: type } });
     },
@@ -77,7 +90,7 @@ export function PipelineUI() {
   }, []);
 
   return (
-    <div ref={wrapperRef} style={{ width: '100%', height: '70vh' }}>
+    <div ref={wrapperRef} className="canvas-wrapper">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -90,27 +103,33 @@ export function PipelineUI() {
         nodeTypes={nodeTypes}
         proOptions={proOptions}
         snapGrid={[GRID, GRID]}
+        snapToGrid
         connectionLineType="smoothstep"
+        defaultEdgeOptions={defaultEdgeOptions}
         fitView
+        fitViewOptions={{ padding: 0.2 }}
+        minZoom={0.2}
+        maxZoom={2}
+        style={{ background: 'var(--bg-canvas)' }}
       >
-        <Background color="#94a3b8" gap={GRID} size={0.5} />
-        <Controls />
+        {/* Dot grid */}
+        <Background
+          variant={BackgroundVariant.Dots}
+          color="#1e1e35"
+          gap={GRID}
+          size={1}
+        />
+
+        <Controls showInteractive={false} />
+
         <MiniMap
-          nodeColor={(n) => {
-            const accent = {
-              customInput  : '#6366f1',
-              customOutput : '#10b981',
-              llm          : '#f59e0b',
-              text         : '#3b82f6',
-              note         : '#a78bfa',
-              condition    : '#f43f5e',
-              transform    : '#14b8a6',
-              api          : '#f97316',
-              merge        : '#8b5cf6',
-            };
-            return accent[n.type] ?? '#94a3b8';
+          nodeColor={(n) => ACCENT[n.type] ?? '#3d3d60'}
+          maskColor="rgba(7,7,13,0.75)"
+          style={{
+            background: 'var(--bg-raised)',
+            border: '1px solid var(--border-default)',
+            borderRadius: '8px',
           }}
-          maskColor="rgba(248,250,252,0.8)"
         />
       </ReactFlow>
     </div>

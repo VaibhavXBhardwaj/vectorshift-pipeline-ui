@@ -1,23 +1,147 @@
 /* toolbar.module.css */
 
 .toolbar {
-  padding: 12px 10px;
-  border-right: 1px solid #e2e8f0;
-  background: #f8fafc;
-  min-width: 120px;
+  width: 176px;
+  flex-shrink: 0;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  z-index: 10;
+}
+
+/* Subtle top-to-bottom fade on the sidebar background */
+.toolbar::before {
+  content: '';
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border-subtle);
+  display: block;
+  flex-shrink: 0;
+}
+
+.header {
+  padding: 16px 14px 8px;
 }
 
 .sectionLabel {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .08em;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #94a3b8;
-  margin: 0 0 8px 2px;
+  padding: 14px 14px 6px;
+  user-select: none;
 }
 
 .grid {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
+  padding: 4px 10px 16px;
+}
+
+/* ── Draggable node card ── */
+.nodeCard {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 10px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: grab;
+  user-select: none;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s,
+    transform 0.12s;
+  position: relative;
+  overflow: hidden;
+}
+
+.nodeCard::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--node-accent);
+  opacity: 0;
+  border-radius: 0 2px 2px 0;
+  transition: opacity 0.15s;
+}
+
+.nodeCard:hover {
+  background: var(--bg-raised);
+  border-color: var(--border-subtle);
+  transform: translateX(2px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+.nodeCard:hover::before {
+  opacity: 1;
+}
+
+.nodeCard:active {
+  cursor: grabbing;
+  transform: scale(0.97);
+}
+
+.iconWrap {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  flex-shrink: 0;
+
+  background: color-mix(in srgb, var(--node-accent) 15%, transparent);
+  color: var(--node-accent);
+  border: 1px solid color-mix(in srgb, var(--node-accent) 28%, transparent);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.nodeCard:hover .iconWrap {
+  background: color-mix(in srgb, var(--node-accent) 22%, transparent);
+  border-color: color-mix(in srgb, var(--node-accent) 45%, transparent);
+}
+
+.label {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+  transition: color 0.15s;
+}
+
+.nodeCard:hover .label {
+  color: var(--text-primary);
+}
+
+/* ── Footer divider ── */
+.toolbarFooter {
+  margin-top: auto;
+  padding: 12px 14px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.toolbarFooterLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-align: center;
 }

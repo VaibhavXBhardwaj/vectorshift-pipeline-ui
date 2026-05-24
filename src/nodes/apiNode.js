@@ -1,7 +1,4 @@
-// nodes/apiNode.js
-//
-// Makes an HTTP request and forwards the response body downstream.
-// URL may contain {{variable}} tokens resolved at runtime.
+
 
 import { useState } from 'react';
 import { Position } from 'reactflow';

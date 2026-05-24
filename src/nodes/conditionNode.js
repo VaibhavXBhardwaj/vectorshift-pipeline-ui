@@ -1,7 +1,4 @@
-// nodes/conditionNode.js
-//
-// Routes the incoming value to one of two outputs depending on a condition.
-// Demonstrates a node with one input and two named outputs.
+
 
 import { useState } from 'react';
 import { Position } from 'reactflow';

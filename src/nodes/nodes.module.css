@@ -1,8 +1,4 @@
-/* nodes/nodes.module.css */
-/* ─────────────────────────────────────────────────────────────────────────────
-   Design tokens & shared node chrome.
-   Individual node files only need to style their own fields — never layout.
-   ───────────────────────────────────────────────────────────────────────────── */
+
 
 :root {
   --accent-default : #94a3b8;
@@ -149,7 +145,7 @@
   padding-right: 26px;
 }
 
-/* ── Info / static text ─────────────────────────────────────────────────────── */
+
 
 .hint {
   font-size: var(--text-xs);
@@ -171,14 +167,6 @@
   width: fit-content;
 }
 
-/* ── Handles ────────────────────────────────────────────────────────────────── */
-
-/*
-  ReactFlow positions handles with absolute CSS already.
-  We wrap each Handle in .handleWrap to co-locate the optional label,
-  then use position: absolute on the wrap to mirror the handle's position.
-  The actual ReactFlow handle sits at offset 0 inside the wrap.
-*/
 
 .handleWrap {
   position: absolute;
@@ -220,7 +208,7 @@
   pointer-events: none;
 }
 
-/* ── Divider ────────────────────────────────────────────────────────────────── */
+
 
 .divider {
   height: 1px;
@@ -228,7 +216,7 @@
   margin: 2px 0;
 }
 
-/* ── Toggle row (checkbox + label inline) ───────────────────────────────────── */
+
 
 .toggleRow {
   display: flex;

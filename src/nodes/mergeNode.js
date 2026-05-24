@@ -1,7 +1,4 @@
-// nodes/mergeNode.js
-//
-// Collects N named inputs and merges them into a single output object or
-// concatenated string. The number of inputs is configurable.
+
 
 import { useState, useMemo } from 'react';
 import { Position } from 'reactflow';

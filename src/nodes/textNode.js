@@ -87,8 +87,7 @@ export function TextNode({ id, data }) {
       minWidth={MIN_WIDTH}
     >
       {/*
-        Hidden mirror div — renders offscreen, shares computed styles with the
-        textarea so our measurements are accurate.
+        
       */}
       <div
         ref={mirrorRef}

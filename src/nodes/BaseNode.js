@@ -1,4 +1,4 @@
-// nodes/BaseNode.js — merged (accepts both Claude A and B props)
+
 import { Handle, Position } from 'reactflow';
 
 export function BaseNode({

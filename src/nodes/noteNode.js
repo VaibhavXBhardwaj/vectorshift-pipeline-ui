@@ -1,6 +1,4 @@
-// nodes/noteNode.js
-//
-// A no-handle annotation node. Pure documentation inside the canvas.
+
 
 import { useState } from 'react';
 import { BaseNode } from './BaseNode';
